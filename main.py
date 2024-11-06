@@ -6,7 +6,7 @@ all_commands = \
  3 - "add-phone [ім'я] [номер телефону]" -> Зберігає список номерів телефону, ???при додаванні робить перевірку чи номер існує.
  4 - "phone [ім'я]" -> Виводить номер телефону контакту
  5 - "all" -> Виводить всі контакти з словниками
- 6 - "close" -> Закриває програму із збереженням даних
+ 6 - "close" -> Закриває програму без збереження даних
  7 - "add-birthday [ім'я] [дата народження]" -> Додаю до контакту день народження
  8 - "show-birthday [ім'я]" -> Показую день народження контакту
  9??? - "birthdays" -> Повертає список користувачів, яких потрібно привітати на задану кількість днів від введеної дати
@@ -15,11 +15,11 @@ all_commands = \
  12 - "add-email [ім'я] [Email]" -> Команда додавання електронної пошти до користувача
  13 - "save" -> Команда зберігання словника в файл .pkl
  14 - "help" -> Виводить всі доступні команди 
- 15 - "exit" -> Закриває програму без збереження даних
+ 15 - "exit" -> Закриває програму із збереженням даних
 
- 16--- - "show-user [name]" -> Виводить дані користувача
- 17--- - "add-addres [name]" -> Додає адресу до користувача
- 18--- - "show-addres [name]" -> Виводить адресу до користувача
+ 16 - "user [name]" -> Виводить дані користувача
+ 17 - "add-addres [name] [sity]" -> Додає адресу до користувача
+ 18 - "show-addres [name]" -> Виводить адресу до користувача
 
 Команди для нотатків:
  1 - "n [name] [coment] [notes]" -> Додавання нотаток до користувача або редагую існуючі
@@ -37,7 +37,6 @@ all_commands = \
 
 import Address_Book #Імпортую свій файл з користувачами
 import Basic_functions #Імпортую файл з функціями
-
 
 
 
@@ -69,7 +68,11 @@ def main(): #Основна функція з циклом
                     
                 case "all": Basic_functions.all_book(book) #Команда виведення всх контактів з AddressBook з усіма даними
                     
-                case "add": Basic_functions.add_user_book(args, book) #???????????Команда додавання користувача до AddressBook
+                case "add": Basic_functions.add_user_book(args, book) #Команда додавання користувача до AddressBook
+                
+                case "user": #-----------------------------------
+                    u = "".join(args) #Додаю ім'я зі списку до рядка
+                    print(book.find(u))
                 
                 case "remove-user": #Команда видалення користувача з AddressBook
                     du = "".join(args)
@@ -99,13 +102,19 @@ def main(): #Основна функція з циклом
                     uem = "".join(args) 
                     book.find_contacts_user(uem, "email")
                 
+                case "add-addres": Basic_functions.add_address_to_user(args, book) #-----------------------------------------
+                case "show-addres":
+                    nad = "".join(args)
+                    book.find_contacts_user(nad, "address")
+                
+                
+                
                 #Теги користувача
                 case "add-tag": Basic_functions.add_tag_to_user(args, book)
                 case "tag-user": Basic_functions.searth_teg_user(args, book)
 
 
             
-
                 
                 #Нотатки
                 case "n": #Додаю нотатки до користувача
@@ -136,7 +145,7 @@ def main(): #Основна функція з циклом
                 
                 case "save": Basic_functions.save_data(book, Basic_functions.lincFile) #Зберігаю в файл .pkl книгу з користувачами
                 
-                case "close": break #Команда для закриття книги НЕ зберігає словник
+                # case "close": break #Команда для закриття книги НЕ зберігає словник
                 
                 case "exit": #Команда для закриття книги зберігає словник
                     Basic_functions.save_data(book, Basic_functions.lincFile) #Зберігаю в файл .pkl книгу з користувачами

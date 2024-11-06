@@ -8,31 +8,47 @@ import re
 
 class AddressBook(UserDict): #Клас для словника
     
-#Метод запису заних до UserDict
     def add_record(self, data): #Метод для додавання словника до self.data
+        """ 
+        Метод запису даних до UserDict
+        """
         super().update(data) #Додаю словник через super
 
 
-#Метод для перевірки чи користувач є в словнику якщо є то виводить ім'я
-    def find(self, fName): #Шукаю в словнику по імені
+
+    def find(self, fName: str): #Шукаю в словнику по імені
+        """ 
+        Метод для пошуку користувача в словнику,
+        повертає словник
+        """
+        result = {}
         try:
-            return f"Find: {self.data[fName]}" #Повертаю результат
+            result.update({fName: self.data[fName]}) #
+            return result #Повертаю результат
         except: return f"User -{fName}- is missing" #Повертаю попередження про відсутність користувача
     
 
-#Метод видалення користувача
+
     def delete(self, dName): #Метод для видалення запису з словника 
+        """ 
+        Метод для видалення користувача
+        """
         try: #Перевіряю на наявність користувача
             self.data.pop(dName) #Видаляю користувача
             print(f"Delet - '{dName}' ")
         except: print("User is missing") #Виводжу попередження що користувач відсутній
     
     
-#Метод пошуку даних контактів користувача
+
     def find_contacts_user(self, contName, contValue):
+        """ 
+        Метод пошуку контактних даних користувачів
+        """
         if self.data.get(str(contName)): #Роблю перевірку на співпадіння в поточному словнику користувачів UserDict
-            userData = dict(self.data[contName])["contacts"] #Зберігаю словник користувача з UserDict і витягую з словника значення по ключу
-            print(userData[contValue]) #Повертаю результат пошуку через прінт
+            try:
+                userData = dict(self.data[contName])["contacts"] #Зберігаю словник користувача з UserDict і витягую з словника значення по ключу
+                return print(userData[contValue]) #Повертаю результат пошуку через прінт
+            except: print(f"There is no contact-> {contValue}")
             
         else: print(f"User -{contName}- is missing") #Повертаю попередження про відсутність користувача
     
@@ -232,10 +248,11 @@ class Email(Field): #Валідація пошти-----------------------------
 
 
 
+
 class Record: #Шаблон користувача
     
-    """Клас `Record` для зберігання інформації про контакт
-    Типу форма для словника
+    """Клас `Record` для зберігання інформації про контакт.
+    Типу форма для словника.
     Можна вказати додаткові
         обов'язкові параметри до контакту
         які будуть записуватись в AddressBook
@@ -254,8 +271,8 @@ class Record: #Шаблон користувача
                 "birthday": self.birthday
                 },
             "notes": {
-                'Note1': 'Hello',
-                'Note2': 'World',
+                'Note1': 'Text1',
+                'Note2': 'Text2',
             }
             }}
         return self.dictREC #Вертаю словник

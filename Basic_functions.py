@@ -1,19 +1,21 @@
 
 import pickle
-import Address_Book #Імпортую свій файл з користувачами
+import Address_Book
 
 
 """ Функції """
-def all_book(User_book:Address_Book) -> str:
-    """Функція виведення контактів"""
+def all_book(User_book: Address_Book) -> str:
+    """
+    Функція виведення контактів,
+    читає всю книгу контактів
+    """
     for b in User_book.data:
         print(b, User_book[b])
         
 
-def add_user_book(addUser, User_book:Address_Book) -> str: 
+def add_user_book(addUser, User_book: Address_Book) -> str: 
     """
-    Функція
-    додавання користувача до UserDict
+    Функція додавання користувача до Address_Book
     """
     u = "".join(addUser) #Додаю ім'я зі списку до рядка
     if u: #Роблю перевірку на пусте значення
@@ -23,14 +25,22 @@ def add_user_book(addUser, User_book:Address_Book) -> str:
     else: print("!Add a username!") #Виводжу попередження що ім'я не введене
 
 
-def add_phone_to_user(args, User_book): #Функція додавання до користувача телефону ([name, phone], dict)
+def add_phone_to_user(args, User_book):
+    """ 
+    Функція додавання до користувача телефону
+    ([name, phone], dict)
+    """
     n, p = args #Розбиваю список
     p = Address_Book.Phone(p).phone_validation() #Зберігаю завалідований номер телефону
     if p != None: #Роблю перевірку на відсутність валідації
         User_book.update_user_contacts(n, {"phone": p}) #Оновлюю телефон користувача
 
 
-def add_birthday_to_user(args, User_book): #Функція додавання до користувача дня народження (['name', 'birthday'], dict)
+def add_birthday_to_user(args, User_book):
+    """ 
+    Функція додавання до користувача дня народження
+    (['name', 'birthday'], dict)
+    """
     try:
         n, birthday = args #Пробую розбити список
         birthday = Address_Book.Birthday(birthday).birthday_validation() #Перезаписую ДН з валідацією
@@ -39,7 +49,11 @@ def add_birthday_to_user(args, User_book): #Функція додавання д
     except: print("Enter the command correctly \n-> add-birthday [name] [DD.MM.YYYY]") #Повертаю помилку
 
 
-def add_email_to_user(args, User_book): #Функція додавання Email 
+def add_email_to_user(args, User_book: Address_Book):
+    """ 
+    Функція додавання Email
+    (['name', 'email'], dict)
+    """ 
     try:
         n, email = args #Пробую розбити список
         email = Address_Book.Email(email).email_validation() #--------------------------------------------------
@@ -48,9 +62,21 @@ def add_email_to_user(args, User_book): #Функція додавання Email
     except: print("Enter the command correctly \n-> add-email [name] [Email]") #Повертаю помилку
 
 
-def add_tag_to_user(args, User_book): #Функція додавання тегів до користувача
-    nn, tg = args #Розбиваю список на змінні
-    User_book.add_data_to_users(nn, "tag", tg) #Додаю тег до користувача
+
+def add_address_to_user(args, User_book: Address_Book): #-------------------------------------
+    n, adres = args
+    User_book.update_user_contacts(n, {"address": adres})
+
+
+
+
+def add_tag_to_user(args, User_book):
+    """ 
+    Функція додавання тегів до користувача
+    (['name', 'tag'], dict)
+    """
+    nn, tag = args #Розбиваю список на змінні
+    User_book.add_data_to_users(nn, "tag", tag) #Додаю тег до користувача
 
 
 def searth_teg_user(args, User_book): #Функція пошуку користувача за тегом
@@ -94,20 +120,27 @@ def remove_user_notes_all(args, User_book): #Функція видалення �
 
 
 
-""" Функції збереження і відкриття файлу .pkl"""
+"""  і """
 lincFile = "addressbook.pkl" #Посилання на файл (назва файлу)
 def save_data(book, filename): #Функція збереження словника до файлу .pkl
+    """ 
+    Функція збереження даних в файл .pkl
+    """
     with open(filename, "wb") as f: #Відкриваю файл
         pickle.dump(book, f) #Створюю новий файл або переписую існуючий
         print("Book is saved")
 
 
 def load_data(filename): #Функція зчитування файлу .pkl
+    """ 
+    Функція відкриття файлу .pkl -> 
+    повертає зчитаний файл, або екземпляр класу Address_Book
+    """
     try: 
         with open(filename, "rb") as f: #Пробую відкрити файл
             try:
                 print("Book has been updated")
-                return pickle.load(f) #Декодую файл
+                return pickle.load(f) #Декодую файл і повертаю 
             except: return Address_Book.AddressBook()
     except FileNotFoundError: #Якщо файл відсутній то створюю новий словник
         return Address_Book.AddressBook()  # Повернення нової адресної книги, якщо файл не знайдено
