@@ -96,12 +96,9 @@ class AddressBook(UserDict): #Клас для словника
                         
                         for ph in contD[uDatKeys]:
                             if ph != None:
-                                print(ph, "--2222")
                                 phone_list.append(ph)
                         phone_list.append(uDatValues)
-                        print(phone_list)
                         contD.update({"phone": phone_list})
-                        print(contD)
                     else:
                         contD.update(uDat) #Додаю значення до вкладеного словника в "contacts"
                         
@@ -155,7 +152,7 @@ class AddressBook(UserDict): #Клас для словника
     
 
 
-#Метод для виведення днів народження на наступний тиждень
+#Метод для виведення днів народження на наступний тиждень (на задану кількість днів)
     def find_birthday_users_for_week(self): # birthdays
         try:
             today_time = datetime.today().date() #Зберігаю поточну дату
