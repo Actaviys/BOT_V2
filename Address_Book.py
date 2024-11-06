@@ -168,28 +168,32 @@ class AddressBook(UserDict): #Клас для словника
     
 
 
-#Метод для виведення днів народження на наступний тиждень (на задану кількість днів)
-    def find_birthday_users_for_week(self): # birthdays
+
+    def find_birthday_users(self, period: int): # birthdays
+        """ 
+        Метод для виведення днів народження на задану кількість днів
+        """
+        print("ok")
         try:
             today_time = datetime.today().date() #Зберігаю поточну дату
             dict_res = {} #Словник для результату пошуку
             
             for ur in self.data: #Проходжусь по словнику UserDict
                 users_dicts = dict(self.data[ur])["contacts"] #Зберігаю словник користувача
-                # print(users_dicts)
                 
                 if users_dicts.get("birthday"): #Роблю перевірку наявність дати народження
                     birtDT = datetime.strptime(users_dicts["birthday"], '%Y-%m-%d').date() #Перетворюю ДН з словника в об'єкт datetime
                     repYear = birtDT.replace(year=today_time.year) #Замінюю рік з ДН на поточний
                     
+                    ###___________________________________???????????????
                     res_bird = int(( repYear - today_time ).days) #Віднімаю ДН від поточної дати і зберігаю як int
-                    if res_bird <= 7 and res_bird >= 0: #Перевіряю чи на цьому тижні ДН
+                    
+                    if res_bird < period and res_bird > 0: #Роблю перевірку по періоду
                         dict_res.update({ur: birtDT.isoformat()}) #Додаю до словника результатат перевірки 
                         
             return dict_res #Повертаю словник з результатом пошуку
         
         except: print("Wrong date in the dictionary") #Виводжу повідомлення якщо є помилкова дата народження в словнику
-    
     
 
 
