@@ -4,13 +4,17 @@ import Address_Book #Імпортую свій файл з користувач�
 
 
 """ Функції """
-def all_book(User_book) -> str:
+def all_book(User_book:Address_Book) -> str:
     """Функція виведення контактів"""
     for b in User_book.data:
         print(b, User_book[b])
         
 
-def add_user_book(addUser, User_book): #Функція додавання користувача до UserDict
+def add_user_book(addUser, User_book:Address_Book) -> str: 
+    """
+    Функція
+    додавання користувача до UserDict
+    """
     u = "".join(addUser) #Додаю ім'я зі списку до рядка
     if u: #Роблю перевірку на пусте значення
         rec = Address_Book.Record(u) #Створюю об'єкт класу Record
